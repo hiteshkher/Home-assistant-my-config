@@ -1,11 +1,11 @@
 captive_portal:
 
-# Example configuration entry for ESP32
+# Example configuration entry for ESP8266
 i2c:
-  sda: GPIO4
-  scl: GPIO5
+  sda: GPIO4 # GPIO21 for ESP32
+  scl: GPIO5 # GPIO22 For ESP32
 font:
-  - file: "calibril.ttf" #Need to download this font and add home assistant/file editor/esphome then upload file here ( font ) 
+  - file: "calibril.ttf" #Need to download (I give Under Display Test List)  this font and add, home assistant/file editor/esphome then upload file here ( font ) 
     id: hitesh
     size: 20
 display:
