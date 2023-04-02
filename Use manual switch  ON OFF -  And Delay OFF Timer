@@ -1,0 +1,109 @@
+esphome:
+  name: game10-11
+  friendly_name: Game10-11
+
+esp8266:
+  board: nodemcuv2
+
+
+
+
+
+captive_portal:
+
+# Example configuration entry
+binary_sensor: #IN_PUT
+  - platform: gpio
+    name: PS4_10_MANUAL
+    pin:
+      number: GPIO0 #D3
+      inverted: true
+      mode:
+        input: true
+        pullup: true
+    filters:
+      - delayed_off: 50s
+    on_press:
+      then:
+      - switch.turn_on: PS4_10
+    on_release:
+      then:  
+      - switch.turn_off: PS4_10
+#-----------------------------------------------1 end input
+  - platform: gpio
+    name: PS4_11_MANUAL
+    pin:
+      number: GPIO2  #D4
+      inverted: true
+      mode:
+        input: true
+        pullup: True
+    filters:
+      - delayed_off: 50s
+    on_press:
+      then:
+      - switch.turn_on: PS4_11
+    on_release:
+      then:  
+      - switch.turn_off: PS4_11
+#-------------------------------------------------2 end input 
+  - platform: gpio
+    name: fan
+    pin:
+      number: GPIO13 #D7	
+      inverted: true
+      mode:
+        input: true
+        pullup: True
+    on_press:
+      then:
+      - switch.turn_on: fan
+    on_release:
+      then:  
+      - switch.turn_off: fan
+
+#-------------------------------------------------3 end input 
+
+  - platform: gpio
+    name: light
+    pin:
+      number: GPIO1 #TX 
+      inverted: true
+      mode:
+        input: true
+        pullup: True
+    on_press:
+      then:
+      - switch.turn_on: light
+    on_release:
+      then:  
+      - switch.turn_off: light  
+
+#-------------------------------------------------4 end input 
+switch: #OUT_PUT
+
+  - platform: gpio
+    name: PS4_10_NO
+    id: PS4_10
+    pin: GPIO5 #D1        
+    inverted: true
+  #---------------------------------------------  
+  - platform: gpio  
+    name: PS4_11_NO 
+    id: PS4_11
+    pin: GPIO4 #D2      
+    inverted: true
+  #---------------------------------------------    
+  - platform: gpio  
+    name: fan 
+    id: fan
+    pin: GPIO14 #D5       
+    inverted: true
+  #---------------------------------------------   
+  - platform: gpio  
+    name: light 
+    id: light
+    pin: GPIO12 #D6       
+    inverted: true
+    
+    
