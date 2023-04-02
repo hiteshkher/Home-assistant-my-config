@@ -1,0 +1,39 @@
+esphome:
+  name: esp01-1switch
+  friendly_name: esp01-1switch
+
+esp8266:
+  board: esp01_1m
+  restore_from_flash: True
+
+
+
+captive_portal:
+
+switch:
+  - platform: gpio
+    pin: GPIO0
+    name: "Out light1"
+    inverted: true
+    id: Outlight1
+
+time:
+  - platform: sntp
+    # ...
+    on_time:
+      # Every day
+      - seconds: 0
+        minutes: 00
+        hours: 19
+        days_of_week: 1-7
+        then:
+          - switch.turn_on:
+               id: Outlight1
+      # Every day
+      - seconds: 0
+        minutes: 0
+        hours: 23 
+        days_of_week: 1-7
+        then:
+          - switch.turn_off:
+               id: Outlight1
