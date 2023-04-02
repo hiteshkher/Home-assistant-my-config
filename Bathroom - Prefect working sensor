@@ -1,0 +1,27 @@
+captive_portal:
+
+binary_sensor: #like IN_PUT
+  - platform: gpio
+    filters:
+      - invert:
+      - delayed_off: 150ms
+      - delayed_on: 150ms
+    name: IR Sensor
+    pin: 3
+      
+    #on_press:
+      #then:
+      #- switch.turn_on: light
+      #- delay: 2s
+      #- switch.turn_off: light
+    on_release:
+      then:
+      - switch.turn_on: light
+      - delay: 120s
+      - switch.turn_off: light
+
+switch: #like OUT_PUT
+  - platform: gpio
+    #restore_mode: ALWAYS_ON
+    name: light
+    id: light
