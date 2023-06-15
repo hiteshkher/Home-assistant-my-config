@@ -1,0 +1,484 @@
+name: 💡 Dimmer
+
+type: custom:slider-button-card
+entity: light.dimmer_kitchen_lights
+slider:
+  direction: left-right
+  background: gradient
+  use_state_color: false
+  use_percentage_bg_opacity: false
+  show_track: false
+  toggle_on_click: false
+  force_square: false
+show_name: true
+show_state: true
+compact: true
+icon:
+  show: true
+  use_state_color: true
+  tap_action:
+    action: more-info
+  icon: mdi:led-on
+action_button:
+  mode: toggle
+  icon: null
+  show: true
+  show_spinner: true
+  tap_action:
+    action: toggle
+name: 💡 Dimmer
+
+
+
+1-6
+
+
+type: entities
+entities:
+  - entity: binary_sensor.1_6_1
+    name: Game 1
+    secondary_info: last-changed
+  - entity: binary_sensor.1_6_2
+    name: Game 2
+    secondary_info: last-changed
+  - entity: binary_sensor.1_6_3
+    name: Game 3
+    secondary_info: last-changed
+  - entity: binary_sensor.1_6_4
+    name: Game 4
+    secondary_info: last-changed
+  - entity: binary_sensor.1_6_5
+    name: Game 5
+    secondary_info: last-changed
+  - entity: binary_sensor.1_6_6
+    name: Game 6
+    secondary_info: last-changed
+  - entity: binary_sensor.7_8_9_7
+    name: Game 7
+    secondary_info: last-changed
+  - entity: binary_sensor.7_8_9_8
+    name: Game 8
+    secondary_info: last-changed
+  - entity: binary_sensor.7_8_9_9
+    name: Game 9
+    secondary_info: last-changed
+  - entity: binary_sensor.game10_11_10
+    name: Game10
+    secondary_info: last-changed
+  - entity: binary_sensor.game10_11_11
+    secondary_info: last-changed
+    name: Game11
+  - entity: binary_sensor.game10_11_12
+    secondary_info: last-changed
+    name: Game12
+title: Games
+show_header_toggle: false
+state_color: true
+
+
+lights
+
+
+type: entities
+entities:
+  - entity: input_boolean.santi
+  - entity: input_boolean.full_light
+  - entity: input_boolean.party_scenes
+  - entity: switch.7_8_9_light
+    icon: mdi:power-plug
+    name: 'Home Theater '
+  - entity: switch.1_6_light8
+    name: LED Sound
+    icon: mdi:led-strip-variant
+  - entity: select.wled_soundreactive_preset
+  - entity: light.wled_soundreactive
+  - entity: light.dimmer_kitchen_lights
+    icon: mdi:led-on
+  - entity: switch.1_6_light9
+    name: Fan 3
+    icon: mdi:fan
+  - entity: switch.game10_11_fan
+    icon: mdi:fan
+    name: Fan 4
+  - entity: switch.1_6_light10
+    name: Light 3
+    icon: mdi:lightbulb
+  - entity: switch.1_6_light7
+    name: Out Light Auto
+    secondary_info: none
+    icon: mdi:outdoor-lamp
+  - entity: switch.bathroom_light
+    icon: mdi:lightbulb-auto
+  - entity: switch.fridgeok_fridge
+  - entity: binary_sensor.bathroom_ir_sensor
+  - entity: sensor.fridgeok_ntc_temperature
+state_color: true
+show_header_toggle: false
+title: Lights
+
+
+watch
+
+
+type: custom:clock-card
+time_zone: Asia/Kolkata
+size: 250
+font_size: 20
+disable_seconds: null
+caption: null
+display_date: DDDD   DD/MM/YY - hh:mm a
+theme:
+  background: black
+  hands: dodgerblue
+  numbers: white
+  border: dodgerblue
+
+gauge
+
+
+type: gauge
+entity: sensor.weather_dht20_temperature
+needle: true
+max: 50
+segments:
+  - from: 40
+    color: '#db4437'
+  - from: 34
+    color: '#ffa600'
+  - from: 18
+    color: '#43a047'
+  - from: 10
+    color: '#ffa600'
+  - from: 0
+    color: '#db4437'
+min: 0
+name: Outside Temp
+
+
+
+gauge 2
+
+
+type: gauge
+entity: sensor.weather_dht20_humidity
+needle: true
+max: 100
+segments:
+  - from: 70
+    color: '#bb7437'
+  - from: 60
+    color: '#ffa600'
+  - from: 30
+    color: '#43a047'
+  - from: 20
+    color: '#ffa600'
+  - from: 0
+    color: '#bb7437'
+min: 0
+name: Outside Humidity
+
+
+weather
+
+
+type: custom:clock-weather-card
+entity: weather.forecast_home_2
+title: Home
+sun_entity: sun.sun
+temperature_sensor: sensor.weather_dht11_temperature
+forecast_days: 5
+date_pattern: dd/MM/yyyy
+
+
+data
+
+
+type: entities
+entities:
+  - entity: sensor.weather_dht11_temperature
+    name: In Temp
+  - entity: sensor.weather_dht11_humidity
+    name: In Humidity
+  - entity: sensor.weather_dht20_temperature
+    name: Out Temp
+    secondary_info: none
+  - entity: sensor.weather_dht20_humidity
+    name: Out Humidity
+    secondary_info: none
+  - entity: sensor.processor_temperature
+    name: PI 4 Temp
+  - entity: sensor.processor_use
+  - entity: sensor.memory_use
+  - entity: sensor.last_boot
+    secondary_info: none
+title: System
+
+histry graph
+
+type: history-graph
+entities:
+  - entity: binary_sensor.1_6_1
+  - entity: binary_sensor.1_6_2
+  - entity: binary_sensor.1_6_3
+  - entity: binary_sensor.1_6_4
+  - entity: binary_sensor.1_6_5
+  - entity: binary_sensor.1_6_6
+  - entity: binary_sensor.7_8_9_7
+  - entity: binary_sensor.7_8_9_8
+  - entity: binary_sensor.7_8_9_9
+  - entity: binary_sensor.game10_11_10
+  - entity: binary_sensor.game10_11_11
+  - entity: binary_sensor.game10_11_12
+hours_to_show: 13
+
+
+home
+
+show_name: true
+show_icon: true
+show_state: true
+type: glance
+entities:
+  - entity: sensor.poco_f1_battery_level
+    name: Poco
+  - entity: sensor.hiteshs_ipad_battery_level
+    name: iPad
+  - entity: sensor.livingroom_dht11_temperature
+    name: Osri
+  - entity: sensor.bedroom_dht11_temperature
+    name: Room
+  - entity: sensor.weather_dht20_temperature
+    name: Out side
+  - entity: sensor.poco_m4_pro_battery_level
+    name: M4
+  - entity: sensor.livingroom_dht11_humidity
+    name: '  '
+  - entity: sensor.bedroom_dht11_humidity
+    name: '  '
+  - entity: sensor.weather_dht20_humidity
+    name: '  '
+state_color: true
+columns: 5
+
+
+home 
+
+type: vertical-stack
+cards:
+  - type: custom:button-card
+    color_type: label-card
+    color: rgb(0, 55, 150)
+    name: Living Room
+  - type: horizontal-stack
+    cards:
+      - type: custom:button-card
+        entity: switch.livingroom_1
+        aspect_ratio: 1/1
+        show_name: false
+        color_type: card
+        color: rgb(66, 134, 244)
+        icon: mdi:numeric-1-box-outline
+      - type: custom:button-card
+        entity: switch.livingroom_2
+        aspect_ratio: 1/1
+        show_name: false
+        color_type: card
+        color: rgb(66, 134, 244)
+        icon: mdi:numeric-2-box-outline
+      - type: custom:button-card
+        entity: switch.livingroom_3
+        aspect_ratio: 1/1
+        show_name: false
+        color_type: card
+        color: rgb(66, 134, 244)
+        icon: mdi:numeric-3-box-outline
+      - type: custom:button-card
+        entity: switch.livingroom_4
+        aspect_ratio: 1/1
+        show_name: false
+        color_type: card
+        color: rgb(66, 134, 244)
+        icon: mdi:numeric-4-box-outline
+      - type: custom:button-card
+        entity: switch.livingroom_5
+        aspect_ratio: 1/1
+        show_name: false
+        color_type: card
+        color: rgb(66, 134, 244)
+        icon: mdi:numeric-5-box-outline
+      - type: custom:button-card
+        entity: switch.livingroom_boost
+        aspect_ratio: 1/1
+        show_name: false
+        color_type: card
+        color: rgb(66, 134, 244)
+        icon: mdi:numeric-6-box-outline
+  - type: horizontal-stack
+    cards:
+      - type: custom:button-card
+        state:
+          - value: 'on'
+            color: rgb(66, 134, 244)
+            styles:
+              icon:
+                - animation:
+                    - rotating 1.50s linear infinite
+        entity: switch.livingroom_fan
+        show_name: false
+        color_type: card
+        color: rgb(66, 134, 244)
+        icon: mdi:fan
+      - type: custom:button-card
+        entity: switch.livingroom_light
+        show_name: false
+        icon: mdi:lightbulb
+        color_type: card
+        color: rgb(66, 134, 244)
+      - type: custom:button-card
+        entity: switch.livingroom_nightlamp
+        show_name: false
+        icon: mdi:lightbulb-night
+        color_type: card
+        color: rgb(66, 134, 244)
+      - type: custom:button-card
+        entity: switch.livingroom_fan_light
+        show_name: false
+        color_type: card
+        color: rgb(66, 134, 244)
+        icon: mdi:ceiling-fan-light
+  - type: vertical-stack
+    cards:
+      - type: horizontal-stack
+        cards:
+          - type: custom:button-card
+            entity: switch.livingroom_ac_off
+            aspect_ratio: 1/1
+            name: 'OFF'
+            color_type: card
+            color: rgb(66, 134, 244)
+            icon: mdi:air-conditioner
+          - type: custom:button-card
+            entity: switch.livingroom_ac_on
+            aspect_ratio: 1/1
+            name: 'ON'
+            color_type: card
+            color: rgb(66, 134, 244)
+            icon: mdi:air-conditioner
+          - type: custom:button-card
+            entity: switch.livingroom_30
+            aspect_ratio: 1/1
+            name: '30'
+            color_type: card
+            color: rgb(66, 134, 244)
+            icon: mdi:temperature-celsius
+          - type: custom:button-card
+            entity: switch.livingroom_29
+            aspect_ratio: 1/1
+            name: '29'
+            color_type: card
+            color: rgb(66, 134, 244)
+            icon: mdi:temperature-celsius
+          - type: custom:button-card
+            entity: switch.livingroom_28
+            aspect_ratio: 1/1
+            name: '28'
+            color_type: card
+            color: rgb(66, 134, 244)
+            icon: mdi:temperature-celsius
+
+card config
+
+type: custom:button-card
+entity: sensor.weather_dht20_temperature
+title: null
+aspect_ratio: 1/1
+name: ' '
+show_units: true
+show_state: true
+icon: mdi:raspberry-pi
+styles:
+  card:
+    - background-color: '#000044'
+    - border-radius: 10%
+    - filter: opacity 10%
+    - hight: 100px
+    - color: ivory
+    - font-size: 15px
+    - text-shadow: 0px 0px 5px black
+    - text-transform: capitalize
+  grid:
+    - grid-template-areas: '"i temp" "n n" "cpu cpu" "ram ram" "sd sd"'
+    - grid-template-columns: 1fr 1fr
+  name:
+    - font-weight: bold
+    - font-size: 13px
+    - color: white
+    - align-self: middle
+    - justify-self: start
+    - padding-bottom: 4px
+  img_cell:
+    - justify-content: start
+    - align-items: start
+    - margin: none
+  icon:
+    - color: |
+        [[[
+            if (entity.state < 60) return 'lime';
+            if (entity.state >= 60 && entity.state < 80) return 'orange';
+            else return 'red';
+          ]]]
+    - width: 70%
+    - margin-top: '-20%'
+  custom_fields:
+    temp:
+      - align-self: start
+      - justify-self: end
+    cpu:
+      - padding-bottom: 2px
+      - align-self: middle
+      - justify-self: start
+      - '--text-color-sensor': >-
+          [[[ if (states["sensor.weather_dht20_temperature"].state > 80) return
+          "red"; ]]]
+    ram:
+      - padding-bottom: 2px
+      - align-self: middle
+      - justify-self: start
+      - '--text-color-sensor': >-
+          [[[ if (states["sensor.weather_dht11_temperature"].state > 80) return
+          "red"; ]]]
+    sd:
+      - align-self: middle
+      - justify-self: start
+      - '--text-color-sensor': >-
+          [[[ if (states["sensor.weather_dht20_humidity"].state > 80) return
+          "red"; ]]]
+custom_fields:
+  temp: |
+    [[[
+      return `<ha-icon
+        icon="mdi:thermometer"
+        style="width: 12px; height: 12px; color: yellow;">
+        </ha-icon><span>${entity.state}°C</span>`
+    ]]]
+  cpu: |
+    [[[
+      return `<ha-icon
+        icon="mdi:server"
+        style="width: 12px; height: 12px; color: deepskyblue;">
+        </ha-icon><span>CPU: <span style="color: var(--text-color-sensor);">${states['sensor.weather_dht20_temperature'].state}%</span></span>`
+    ]]]
+  ram: |
+    [[[
+      return `<ha-icon
+        icon="mdi:memory"
+        style="width: 12px; height: 12px; color: deepskyblue;">
+        </ha-icon><span>RAM: <span style="color: var(--text-color-sensor);">${states['sensor.weather_dht20_temperature'].state}%</span></span>`
+    ]]]
+  sd: |
+    [[[
+      return `<ha-icon
+        icon="mdi:harddisk"
+        style="width: 12px; height: 12px; color: deepskyblue;">
+        </ha-icon><span>SD: <span style="color: var(--text-color-sensor);">${states['sensor.weather_dht20_temperature'].state}%</span></span>`
+    ]]] 
