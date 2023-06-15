@@ -1,0 +1,203 @@
+esphome:
+  name: bedroom
+  friendly_name: Bedroom
+
+esp8266:
+  board: d1_mini
+  restore_from_flash: True
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: ""
+
+ota:
+  password: ""
+
+wifi:
+  networks:
+  - ssid: 
+    password: ""
+  - ssid: 
+    password: ""
+# Optional manual IP
+  manual_ip:
+    static_ip: 
+    gateway: 
+    subnet: 
+    dns1: 
+    dns2: 
+
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: ""
+    password: ""
+
+captive_portal:
+  
+# IR #
+
+remote_transmitter:
+  pin:
+    number: D1
+  carrier_duty_percent: 50%
+
+# TEMPERATURE #
+
+sensor:
+  - platform: dht
+    pin: D3
+    temperature:
+      name: "dht11 Temperature"
+    humidity:
+      name: "dht11 Humidity"
+    update_interval: 60s
+
+# MANUAL SWITCH #
+
+binary_sensor: 
+
+  - platform: gpio
+    name: fan
+    pin:
+      number: D2
+      inverted: true
+      mode:
+        input: true
+        pullup: true
+
+    on_press:
+      then:
+      - switch.turn_on: fan
+    on_release:
+      then:  
+      - switch.turn_off: fan
+#-------------------------------------------------2 end input 
+  - platform: gpio
+    name: light
+    pin:
+      number: D5
+      inverted: true
+      mode:
+        input: true
+        pullup: true
+
+    on_press:
+      then:
+      - switch.turn_on: light
+    on_release:
+      then:  
+      - switch.turn_off: light
+
+#-------------------------------------------------3 end input 
+
+  - platform: gpio
+    name: night lamp
+    pin:
+      number: D6
+      inverted: true
+      mode:
+        input: true
+        pullup: true
+    
+    on_press:
+      then:
+      - switch.turn_on: nightlamp
+    on_release:
+      then:
+      - switch.turn_off: nightlamp
+
+#-------------------------------------------------4 end input 
+
+# RELAY OUTPUT #
+
+switch:
+  - platform: gpio  
+    name: fan
+    id: fan
+    pin: D4        
+    #inverted: true
+  #---------------------------------------------    
+  - platform: gpio  
+    name: light
+    id: light
+    pin: D7       
+    #inverted: true
+  #---------------------------------------------   
+  - platform: gpio  
+    name: nightlamp
+    id: nightlamp
+    pin: D0
+    #inverted: true
+
+# IR CODE #
+
+  - platform: template
+    name: "1"
+    turn_on_action:
+      - remote_transmitter.transmit_nec:
+          address: 0xF300
+          command: 0x748B
+          repeat:
+            times: 10
+            wait_time: 50ms
+  - platform: template
+    name: "2"
+    turn_on_action:
+      - remote_transmitter.transmit_nec:
+          address: 0xF300
+          command: 0x6F90
+          repeat:
+            times: 10
+            wait_time: 50ms
+  - platform: template
+    name: "3"
+    turn_on_action:
+      - remote_transmitter.transmit_nec:
+          address: 0xF300
+          command: 0x758A
+          repeat:
+            times: 10
+            wait_time: 50ms
+  - platform: template
+    name: "4"
+    turn_on_action:
+      - remote_transmitter.transmit_nec:
+          address: 0xF300
+          command: 0x6C93
+          repeat:
+            times: 10
+            wait_time: 50ms
+  - platform: template
+    name: "5"
+    turn_on_action:
+      - remote_transmitter.transmit_nec:
+          address: 0xF300
+          command: 0x7788
+          repeat:
+            times: 10
+            wait_time: 50ms
+  - platform: template
+    name: "BOOST"
+    turn_on_action:
+      - remote_transmitter.transmit_nec:
+          address: 0xF300
+          command: 0x708F
+          repeat:
+            times: 10
+            wait_time: 50ms
+  - platform: template
+    name: "fan_light"
+    turn_on_action:
+      - remote_transmitter.transmit_nec:
+          address: 0xF300
+          command: 0x6897
+          repeat:
+            times: 1
+            wait_time: 50ms            
+                
+    
