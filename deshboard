@@ -1,3 +1,68 @@
+# Loads default set of integrations. Do not remove.
+default_config:
+
+# Load frontend themes from the themes folder
+frontend:
+  themes: !include_dir_merge_named themes
+
+# Text to speech
+tts:
+  - platform: google_translate
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+
+sensor:
+  - platform: systemmonitor
+    resources:
+      - type: disk_use_percent
+        arg: /config
+      - type: disk_use
+      - type: disk_free
+      - type: memory_use
+      - type: memory_free
+      - type: swap_use_percent
+      - type: ipv4_address
+        arg: eth0
+      - type: processor_use
+      - type: processor_temperature
+      - type: last_boot
+  - platform: history_stats
+    type: time
+    name: 7_NO
+    entity_id: binary_sensor.7_8_9_7
+    state: "on"
+    start: "{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}"
+    end: "{{ now() }}"
+  - platform: history_stats
+    type: time
+    name: 8_NO
+    entity_id: binary_sensor.7_8_9_8
+    state: "on"
+    start: "{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}"
+    end: "{{ now() }}"
+  - platform: history_stats
+    type: time
+    name: 9_NO
+    entity_id: binary_sensor.7_8_9_9
+    state: "on"
+    start: "{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}"
+    end: "{{ now() }}"
+  - platform: time_date
+    display_options:
+      - "time"
+      - "date"
+      - "date_time"
+      - "date_time_utc"
+      - "date_time_iso"
+      - "time_date"
+      - "time_utc"
+      - "beat"
+
+
+
+
+
 name: 💡 Dimmer
 
 type: custom:slider-button-card
@@ -482,3 +547,333 @@ custom_fields:
         style="width: 12px; height: 12px; color: deepskyblue;">
         </ha-icon><span>SD: <span style="color: var(--text-color-sensor);">${states['sensor.weather_dht20_temperature'].state}%</span></span>`
     ]]] 
+
+
+card 
+
+type: custom:button-card
+entity: sensor.weather_dht20_temperature
+title: ss
+aspect_ratio: 2/1
+name: ram
+show_units: true
+show_state: true
+icon: ''
+styles:
+  card:
+    - background-color: '#003294'
+    - border-radius: 22%
+    - filter: opacity 55%
+    - font-size: 15px
+  grid:
+    - grid-template-areas: null
+    - grid-template-columns: 1fr 1fr
+  name:
+    - null
+    - font-size: 20px
+    - color: white
+    - align-self: null
+    - justify-self: null
+    - padding-bottom: 33px
+
+
+volume
+
+type: horizontal-stack
+cards:
+  - type: custom:button-card
+    color_type: blank-card
+  - type: custom:button-card
+    color_type: blank-card
+  - type: custom:button-card
+    color_type: card
+    color: rgb(223, 255, 97)
+    icon: mdi:volume-plus
+    tap_action:
+      action: call-service
+      service: switch.livingroom_nightlamp
+      service_data:
+        entity_id: switch.livingroom_nightlamp
+  - type: custom:button-card
+    color_type: card
+    color: rgb(223, 255, 97)
+    icon: mdi:volume-minus
+    tap_action:
+      action: call-service
+      service: switch.livingroom_light
+      service_data:
+        entity_id: switch.livingroom_light
+  - type: custom:button-card
+    color_type: blank-card
+  - type: custom:button-card
+    color_type: blank-card
+
+mom room
+
+type: vertical-stack
+cards:
+  - type: custom:button-card
+    color_type: label-card
+    color: rgb(0, 55, 150)
+    name: Room
+  - type: horizontal-stack
+    cards:
+      - type: custom:button-card
+        entity: switch.mom_room_1
+        name: ૧
+        styles:
+          card:
+            - height: 80px
+            - font-size: 50px
+          name:
+            - justify-self: start
+            - padding-left: 8px
+            - font-weight: bold
+      - type: custom:button-card
+        entity: switch.mom_room_2
+        name: ૨
+        styles:
+          card:
+            - height: 80px
+            - font-size: 50px
+          name:
+            - justify-self: start
+            - padding-left: 8px
+            - font-weight: bold
+      - type: custom:button-card
+        entity: switch.mom_room_3
+        name: ૩
+        styles:
+          card:
+            - height: 80px
+            - font-size: 50px
+          name:
+            - justify-self: start
+            - padding-left: 8px
+            - font-weight: bold
+      - type: custom:button-card
+        entity: switch.mom_room_4
+        name: ૪
+        styles:
+          card:
+            - height: 80px
+            - font-size: 50px
+          name:
+            - justify-self: start
+            - padding-left: 8px
+            - font-weight: bold
+      - type: custom:button-card
+        entity: switch.mom_room_5
+        name: ૫
+        styles:
+          card:
+            - height: 80px
+            - font-size: 50px
+          name:
+            - justify-self: start
+            - padding-left: 8px
+            - font-weight: bold
+      - type: custom:button-card
+        entity: switch.mom_room_boost
+        name: ૬
+        styles:
+          card:
+            - height: 80px
+            - font-size: 50px
+          name:
+            - justify-self: start
+            - padding-left: 8px
+            - font-weight: bold
+  - type: horizontal-stack
+    cards:
+      - type: custom:button-card
+        state:
+          - value: 'on'
+            color: rgb(66, 134, 244)
+            styles:
+              icon:
+                - animation:
+                    - rotating 1.50s linear infinite
+        entity: switch.mom_room_fan
+        aspect_ratio: 1/1
+        name: પંખો
+        color_type: card
+        color: rgb(66, 134, 244)
+        icon: mdi:fan
+      - type: custom:button-card
+        entity: switch.mom_room_nightlamp
+        aspect_ratio: 1/1
+        name: લાઈટ
+        icon: mdi:lightbulb
+        color_type: card
+        color: rgb(66, 134, 244)
+      - type: custom:button-card
+        entity: switch.mom_room_light
+        aspect_ratio: 1/1
+        show_name: false
+        icon: mdi:lightbulb-night
+        color_type: card
+        color: rgb(66, 134, 244)
+      - type: custom:button-card
+        entity: switch.mom_room_fan_light
+        aspect_ratio: 1/1
+        show_name: false
+        color_type: card
+        color: rgb(66, 134, 244)
+        icon: mdi:ceiling-fan-light
+  - type: vertical-stack
+    cards:
+      - type: horizontal-stack
+        cards:
+          - type: custom:button-card
+            entity: switch.mom_room_ac_off
+            aspect_ratio: 1/1
+            name: એ.શી બંદ
+            color_type: card
+            color: rgb(66, 134, 244)
+            icon: mdi:air-conditioner
+          - type: custom:button-card
+            entity: switch.mom_room_ac_on
+            aspect_ratio: 1/1
+            name: એ.શી ચાલુ
+            color_type: card
+            color: rgb(66, 134, 244)
+            icon: mdi:air-conditioner
+          - type: custom:button-card
+            entity: switch.mom_room_30
+            aspect_ratio: 1/1
+            name: ત્રીસ
+            color_type: card
+            color: rgb(66, 134, 244)
+            icon: mdi:temperature-celsius
+          - type: custom:button-card
+            entity: switch.mom_room_29a
+            aspect_ratio: 1/1
+            name: ઓગણત્રીસ
+            color_type: card
+            color: rgb(66, 134, 244)
+            icon: mdi:temperature-celsius
+
+graph
+
+type: custom:apexcharts-card
+experimental:
+  color_threshold: true
+graph_span: 7d
+span:
+  end: day
+show:
+  last_updated: true
+header:
+  show: true
+  title: 8_NO
+  show_states: true
+  colorize_states: true
+yaxis:
+  - min: 0
+    max: ~9
+    decimals: 0
+    apex_config:
+      tickAmount: 5
+series:
+  - entity: sensor.8_no
+    show:
+      header_color_threshold: true
+      extremas: true
+      as_duration: hour
+    type: column
+    name: Duration
+    group_by:
+      func: last
+      duration: 1d
+    color_threshold:
+      - value: 1
+        color: dodgerblue
+      - value: 3
+        color: darkcyan
+      - value: 5
+        color: goldenrod
+      - value: 7
+        color: orangered
+      - value: 10
+        color: darkred
+
+mobile app card
+
+square: false
+columns: 1
+type: grid
+cards:
+  - type: custom:button-card
+    styles:
+      card:
+        - border-radius: 00%
+    name: Home
+    icon: mdi:home
+    color_type: card
+    color: rgb(64,64,96)
+    aspect_ratio: 4/1
+    tap_action:
+      action: navigate
+      navigation_path: /dashboard-abc/home
+  - type: custom:button-card
+    styles:
+      card:
+        - border-radius: 00%
+    name: Curtain
+    icon: mdi:curtains
+    color_type: card
+    color: rgb(64,64,96)
+    aspect_ratio: 4/1
+    tap_action:
+      action: navigate
+      navigation_path: /dashboard-abc/floor
+  - type: custom:button-card
+    styles:
+      card:
+        - border-radius: 00%
+    name: Security
+    icon: mdi:shield-lock-outline
+    color_type: card
+    color: rgb(64,64,96)
+    aspect_ratio: 4/1
+    tap_action:
+      action: navigate
+      navigation_path: null
+  - type: custom:button-card
+    styles:
+      card:
+        - border-radius: 00%
+    name: Climate
+    icon: mdi:thermometer
+    color_type: card
+    color: rgb(64,64,96)
+    aspect_ratio: 4/1
+    tap_action:
+      action: navigate
+      navigation_path: /dashboard-abc/floorc
+  - type: custom:button-card
+    styles:
+      card:
+        - border-radius: 00%
+    name: Video
+    icon: mdi:cctv
+    color_type: card
+    color: rgb(64,64,96)
+    aspect_ratio: 4/1
+    tap_action:
+      action: navigate
+      navigation_path: null
+  - type: custom:button-card
+    styles:
+      card:
+        - border-radius: 00%
+    name: Lights
+    icon: mdi:lightbulb
+    color_type: card
+    color: rgb(64,64,96)
+    aspect_ratio: 4/1
+    tap_action:
+      action: navigate
+      navigation_path: null
+
