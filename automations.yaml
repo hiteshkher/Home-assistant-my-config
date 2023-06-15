@@ -1,0 +1,677 @@
+- id: '1679381695115'
+  alias: out light on
+  description: ''
+  trigger:
+  - platform: time
+    at: '19:00:00'
+  condition: []
+  action:
+  - type: turn_on
+    device_id: 80587dfc19e0bf252ef19962c832547e
+    entity_id: switch.2_2
+    domain: switch
+  - type: turn_on
+    device_id: 80587dfc19e0bf252ef19962c832547e
+    entity_id: switch.4
+    domain: switch
+  mode: single
+- id: '1679382293333'
+  alias: out light off
+  description: ''
+  trigger:
+  - platform: time
+    at: '22:30:00'
+  condition: []
+  action:
+  - type: turn_off
+    device_id: 80587dfc19e0bf252ef19962c832547e
+    entity_id: switch.2_2
+    domain: switch
+  - type: turn_off
+    device_id: 80587dfc19e0bf252ef19962c832547e
+    entity_id: switch.4
+    domain: switch
+  mode: single
+- id: '1679382486177'
+  alias: led board on
+  description: ''
+  trigger:
+  - platform: time
+    at: '10:00:00'
+  - platform: time
+    at: '16:00:00'
+  condition: []
+  action:
+  - type: turn_on
+    device_id: 80587dfc19e0bf252ef19962c832547e
+    entity_id: switch.3_3
+    domain: switch
+  mode: single
+- id: '1679382586505'
+  alias: led board off
+  description: ''
+  trigger:
+  - platform: time
+    at: '14:00:00'
+  - platform: time
+    at: '22:30:00'
+  condition: []
+  action:
+  - type: turn_off
+    device_id: 80587dfc19e0bf252ef19962c832547e
+    entity_id: switch.3_3
+    domain: switch
+  mode: single
+- id: '1679662587882'
+  alias: 10 no on notification
+  description: ''
+  trigger:
+  - type: turned_on
+    platform: device
+    device_id: f1a21e81ab45b0c311eddcc4c3cab06e
+    entity_id: binary_sensor.game10_11_ps4_10_manual
+    domain: binary_sensor
+  condition: []
+  action:
+  - service: notify.mobile_app_poco_m4_pro
+    data:
+      message: 10 on
+  mode: single
+- id: '1679663018738'
+  alias: 11 no on notification
+  description: ''
+  trigger:
+  - type: turned_on
+    platform: device
+    device_id: f1a21e81ab45b0c311eddcc4c3cab06e
+    entity_id: binary_sensor.game10_11_ps4_11_manual
+    domain: binary_sensor
+  condition: []
+  action:
+  - service: notify.mobile_app_poco_m4_pro
+    data:
+      message: 11 no on
+  mode: single
+- id: '1679839899841'
+  alias: god
+  description: ''
+  trigger:
+  - platform: time
+    at: '19:10:00'
+  condition: []
+  action:
+  - repeat:
+      count: '2'
+      sequence:
+      - service: notify.mobile_app_poco_m4_pro
+        data:
+          message: TTS
+          data:
+            ttl: 0
+            priority: high
+            media_stream: alarm_stream_max
+            tts_text: jay swaminaarayan
+  - service: notify.mobile_app_poco_m4_pro
+    data:
+      message: ' '
+      title: Diva
+    enabled: true
+  mode: single
+- id: '1680798097024'
+  alias: fan ras
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - sensor.processor_temperature
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: numeric_state
+        entity_id: sensor.processor_temperature
+        above: 45
+      - condition: state
+        entity_id: switch.game10_11_light
+        state: 'on'
+      sequence:
+      - service: switch.turn_on
+        data: {}
+      - choose: []
+        enabled: false
+  - choose:
+    - conditions: []
+      sequence: []
+  mode: single
+- id: '1680798820616'
+  alias: TV Fan
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - sensor.processor_temperature
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: numeric_state
+        entity_id: sensor.processor_temperature
+        below: 48
+      - condition: state
+        state: 'on'
+        entity_id: switch.game10_11_light
+      sequence:
+      - service: switch.turn_off
+        data: {}
+        target:
+          entity_id: switch.game10_11_light
+    - conditions:
+      - condition: numeric_state
+        entity_id: sensor.processor_temperature
+        above: 49
+      - condition: state
+        state: 'off'
+        entity_id: binary_sensor.game10_11_light
+      sequence:
+      - service: switch.turn_on
+        data: {}
+        target:
+          entity_id: switch.game10_11_light
+    default: []
+  mode: single
+- id: '1684298577044'
+  alias: 'ac off  '
+  description: ''
+  trigger:
+  - platform: time
+    at: 05:00:00
+  - type: temperature
+    platform: device
+    device_id: a8e2e1a9de516f23ddc0cd5f28713884
+    entity_id: sensor.livingroom_dht11_temperature
+    domain: sensor
+    below: 29.7
+    enabled: false
+    for:
+      hours: 0
+      minutes: 1
+      seconds: 0
+  condition:
+  - condition: time
+    after: 00:03:00
+    before: 05:35:00
+    weekday:
+    - sun
+    - mon
+    - tue
+    - wed
+    - thu
+    - fri
+    - sat
+    enabled: false
+  action:
+  - type: turn_on
+    device_id: a8e2e1a9de516f23ddc0cd5f28713884
+    entity_id: switch.livingroom_ac_off
+    domain: switch
+  - type: turn_on
+    device_id: a8e2e1a9de516f23ddc0cd5f28713884
+    entity_id: switch.livingroom_3
+    domain: switch
+    enabled: false
+  - delay:
+      hours: 0
+      minutes: 30
+      seconds: 0
+      milliseconds: 0
+    enabled: false
+  - type: turn_on
+    device_id: a8e2e1a9de516f23ddc0cd5f28713884
+    entity_id: switch.livingroom_ac_on
+    domain: switch
+    enabled: false
+  - type: turn_on
+    device_id: a8e2e1a9de516f23ddc0cd5f28713884
+    entity_id: switch.livingroom_2
+    domain: switch
+    enabled: false
+  mode: single
+- id: '1684915037639'
+  alias: TV Fan ff
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - sensor.test_ntc_temperature
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: numeric_state
+        entity_id: sensor.test_ntc_temperature
+        below: 14
+      - condition: state
+        state: 'on'
+        entity_id: switch.test_fridge
+      sequence:
+      - service: switch.turn_off
+        data: {}
+        target:
+          entity_id: switch.test_fridge
+    - conditions:
+      - condition: numeric_state
+        entity_id: sensor.test_ntc_temperature
+        above: 21
+      - condition: state
+        entity_id: switch.test_fridge
+        state: 'off'
+      sequence:
+      - service: switch.turn_on
+        data: {}
+        target:
+          entity_id: switch.test_fridge
+    default: []
+  mode: single
+- id: '1684916184098'
+  alias: New Automation frid
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - sensor.test_ntc_temperature
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: numeric_state
+        entity_id: sensor.test_ntc_temperature
+        below: 15
+      - condition: state
+        state: 'on'
+        entity_id: switch.game10_11_light
+      sequence:
+      - service: switch.turn_off
+        data: {}
+        target:
+          entity_id: switch.game10_11_light
+    - conditions:
+      - condition: numeric_state
+        entity_id: sensor.test_ntc_temperature
+        above: 20
+      - condition: state
+        state: 'off'
+        entity_id: binary_sensor.game10_11_light
+      sequence:
+      - service: switch.turn_on
+        data: {}
+        target:
+          entity_id: switch.game10_11_light
+    default: []
+  mode: single
+- id: '1685033419257'
+  alias: bathroom notification
+  description: ''
+  trigger:
+  - type: turned_off
+    platform: device
+    device_id: 35a1bc1a93e6f7ec239f66d16cc9b9b3
+    entity_id: binary_sensor.bathroom_ir_sensor
+    domain: binary_sensor
+  condition: []
+  action:
+  - repeat:
+      count: '1'
+      sequence:
+      - service: notify.mobile_app_poco_m4_pro
+        data:
+          message: TTS
+          data:
+            ttl: 0
+            priority: high
+            tts_text: bathroom occupied!
+        enabled: true
+      - service: notify.mobile_app_poco_m4_pro
+        data:
+          title: Bathroom
+          message: ''
+          data:
+            ttl: 0
+            priority: high
+            media_stream: alarm_stream_max
+            channel: siren
+        enabled: false
+    enabled: true
+  mode: single
+- id: '1685110546041'
+  alias: Emergency Notification
+  description: ''
+  trigger: []
+  condition: []
+  action:
+  - repeat:
+      count: '1'
+      sequence:
+      - service: notify.mobile_app_poco_m4_pro
+        data:
+          message: TTS
+          data:
+            ttl: 0
+            priority: high
+            media_stream: alarm_stream_max
+            tts_text: Emergency!
+        enabled: false
+      - service: notify.mobile_app_poco_m4_pro
+        data:
+          title: Emergency
+          message: Emergency
+          data:
+            ttl: 0
+            priority: high
+            media_stream: alarm_stream_max
+            channel: siren
+        enabled: true
+  mode: single
+- id: '1685136406881'
+  alias: 'Ac on '
+  description: ''
+  trigger:
+  - type: temperature
+    platform: device
+    device_id: a8e2e1a9de516f23ddc0cd5f28713884
+    entity_id: sensor.livingroom_dht11_temperature
+    domain: sensor
+    above: 32.7
+    for:
+      hours: 0
+      minutes: 1
+      seconds: 0
+  condition:
+  - condition: time
+    after: 00:02:00
+    before: 05:30:00
+    weekday:
+    - sat
+    - fri
+    - thu
+    - wed
+    - tue
+    - mon
+    - sun
+  action:
+  - type: turn_on
+    device_id: a8e2e1a9de516f23ddc0cd5f28713884
+    entity_id: switch.livingroom_ac_on
+    domain: switch
+  - type: turn_on
+    device_id: a8e2e1a9de516f23ddc0cd5f28713884
+    entity_id: switch.livingroom_2
+    domain: switch
+    enabled: false
+  mode: single
+- id: '1685506998827'
+  alias: Auto fan speed  3
+  description: ''
+  trigger:
+  - type: temperature
+    platform: device
+    device_id: a8e2e1a9de516f23ddc0cd5f28713884
+    entity_id: sensor.livingroom_dht11_temperature
+    domain: sensor
+    enabled: true
+    above: 32
+  condition: []
+  action:
+  - type: turn_on
+    device_id: a8e2e1a9de516f23ddc0cd5f28713884
+    entity_id: switch.livingroom_3
+    domain: switch
+    enabled: true
+  mode: single
+- id: '1685507034631'
+  alias: Auto fan speed 4
+  description: ''
+  trigger:
+  - type: temperature
+    platform: device
+    device_id: a8e2e1a9de516f23ddc0cd5f28713884
+    entity_id: sensor.livingroom_dht11_temperature
+    domain: sensor
+    enabled: true
+    above: 32.5
+  condition: []
+  action:
+  - type: turn_on
+    device_id: a8e2e1a9de516f23ddc0cd5f28713884
+    entity_id: switch.livingroom_4
+    domain: switch
+  mode: single
+- id: '1685507761037'
+  alias: Auto Fan speed 2
+  description: ''
+  trigger:
+  - type: temperature
+    platform: device
+    device_id: a8e2e1a9de516f23ddc0cd5f28713884
+    entity_id: sensor.livingroom_dht11_temperature
+    domain: sensor
+    enabled: true
+    below: 31
+  condition: []
+  action:
+  - type: turn_on
+    device_id: a8e2e1a9de516f23ddc0cd5f28713884
+    entity_id: switch.livingroom_2
+    domain: switch
+  mode: single
+- id: '1685644911636'
+  alias: 1 lakh
+  description: ''
+  trigger:
+  - platform: time
+    at: '11:00:00'
+  - platform: time
+    at: '12:00:00'
+  - platform: time
+    at: '13:00:00'
+  condition: []
+  action:
+  - repeat:
+      count: '5'
+      sequence:
+      - service: notify.mobile_app_poco_m4_pro
+        data:
+          message: TTS
+          data:
+            ttl: 0
+            priority: high
+            media_stream: alarm_stream_max
+            tts_text: 1 lakh
+  - service: notify.mobile_app_poco_m4_pro
+    data:
+      message: ' '
+      title: 1 lakh
+    enabled: true
+  mode: single
+- id: '1685974500806'
+  alias: full light on
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - input_boolean.full_light
+    id: fulloff
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 0
+    to: 'off'
+  - platform: state
+    entity_id:
+    - input_boolean.full_light
+    id: fullon
+    to: 'on'
+  condition:
+  - condition: time
+    weekday:
+    - sun
+    - mon
+    - tue
+    - wed
+    - thu
+    - fri
+    - sat
+    after: '10:00:00'
+    before: '22:40:00'
+    enabled: false
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: fulloff
+      sequence:
+      - service: scene.turn_on
+        target:
+          entity_id: scene.full_light_off
+        metadata: {}
+    - conditions:
+      - condition: trigger
+        id: fullon
+      sequence:
+      - service: scene.turn_on
+        target:
+          entity_id: scene.full_light
+        metadata: {}
+  mode: single
+- id: '1685975456910'
+  alias: party on scenes
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - input_boolean.party_scenes
+    from: 'off'
+  condition: []
+  action:
+  - service: scene.turn_on
+    target:
+      entity_id: scene.party
+    metadata: {}
+  mode: single
+- id: '1685978062064'
+  alias: party off
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - input_boolean.party_scenes
+    from: 'on'
+  condition: []
+  action:
+  - service: scene.turn_on
+    target:
+      entity_id: scene.party_off
+    metadata: {}
+  mode: single
+- id: '1685985899574'
+  alias: bath off
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.7_8_9_light
+    to: 'on'
+    id: Bathroom IR Sensor on
+  - platform: state
+    entity_id:
+    - binary_sensor.7_8_9_light
+    id: Bathroom IR Sensor off
+    to: 'off'
+  condition:
+  - condition: time
+    after: '10:00:00'
+    before: '22:00:00'
+    enabled: false
+    weekday:
+    - sun
+    - mon
+    - tue
+    - wed
+    - thu
+    - fri
+    - sat
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: Bathroom IR Sensor on
+      sequence:
+      - type: turn_on
+        device_id: 9b061b9bb1147ecba00410c858299b36
+        entity_id: switch.1_6_light8
+        domain: switch
+    - conditions:
+      - condition: trigger
+        id: Bathroom IR Sensor off
+      sequence:
+      - type: turn_off
+        device_id: 9b061b9bb1147ecba00410c858299b36
+        entity_id: switch.1_6_light8
+        domain: switch
+  mode: single
+- id: '1686065585489'
+  alias: Santi
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - input_boolean.santi
+    to: 'on'
+    id: santi on
+  - platform: state
+    entity_id:
+    - input_boolean.santi
+    id: reguler
+    to: 'off'
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 0
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: santi on
+      sequence:
+      - service: scene.turn_on
+        target:
+          entity_id: scene.santi
+        metadata: {}
+    - conditions:
+      - condition: trigger
+        id: reguler
+      sequence:
+      - service: scene.turn_on
+        target:
+          entity_id: scene.regular
+        metadata: {}
+      - if: []
+        then:
+        - delay:
+            hours: 0
+            minutes: 0
+            seconds: 5
+            milliseconds: 0
+        enabled: false
+      - delay:
+          hours: 0
+          minutes: 0
+          seconds: 5
+          milliseconds: 0
+        enabled: false
+      - service: scene.turn_on
+        target:
+          entity_id: scene.santi
+        metadata: {}
+        enabled: false
+  mode: single
