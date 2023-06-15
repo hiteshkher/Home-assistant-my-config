@@ -1,0 +1,40 @@
+captive_portal:
+sensor:
+# ntc sensor
+  - platform: ntc
+    name: NTC Temperature
+    on_value_range:
+      - above: 21.0
+        then:
+          - switch.turn_on: fridge
+      - below: -2.8
+        then:
+          - switch.turn_off: fridge
+    sensor: resistance_sensor
+    calibration:
+      b_constant: 3950
+      reference_temperature: 25°C
+      reference_resistance: 10kOhm
+    
+
+  - platform: resistance
+    id: resistance_sensor
+    sensor: source_sensor
+    configuration: DOWNSTREAM
+    resistor: 10kOhm
+    reference_voltage:  3.3V
+    name: Resistance Sensor
+  - platform: adc
+    id: source_sensor
+    filters:
+       -  offset:  -0.042
+       -  multiply: 3.3
+    pin: A0
+    update_interval: 60s
+
+
+switch:
+  - platform: gpio
+    pin: D4
+    name: "fridge"
+    id: fridge  
