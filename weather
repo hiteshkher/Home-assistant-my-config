@@ -1,0 +1,24 @@
+captive_portal:
+
+# Example configuration entry for ESP32
+i2c:
+  sda: GPIO4 #D2
+  scl: GPIO5 #D1
+  
+# Example configuration entry
+sensor:
+  - platform: aht10 #dht12 #am2320 #
+    temperature:
+      name: "dht20 Temperature"
+    humidity:
+      name: "dht20 Humidity"
+    update_interval: 60s
+
+
+  - platform: dht
+    pin: D3
+    temperature:
+      name: "dht11 Temperature"
+    humidity:
+      name: "dht11 Humidity"
+    update_interval: 60s
