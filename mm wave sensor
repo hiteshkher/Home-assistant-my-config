@@ -1,0 +1,84 @@
+captive_portal:
+switch:
+  - platform: safe_mode
+    internal: true
+    name: use_safe_mode
+
+binary_sensor:
+- platform: gpio
+  name: mmwave_in_bedroom
+  pin:
+    number: GPIO16
+    mode: INPUT_PULLDOWN
+
+uart:
+  id: uart_bus
+  tx_pin: GPIO4
+  rx_pin: GPIO5
+  baud_rate: 115200
+  debug:
+    direction: BOTH
+    dummy_receiver: true
+    after:
+      delimiter: "\n"
+    sequence:
+      - lambda: UARTDebug::log_string(direction, bytes);
+
+number:
+  - platform: template
+    name: distance
+    id: distance
+    min_value: 0
+    max_value: 1350
+    initial_value: 315
+    optimistic: true
+    step: 15
+    restore_value: true
+    unit_of_measurement: cm
+    set_action:
+      - uart.write: "sensorStop"
+      - delay: 1s
+      - uart.write: !lambda
+                      int cm = (int)ceil(x / 15.0);
+                      std::string cms = "detRangeCfg -1 0 " + to_string(cm);
+                      return std::vector<unsigned char>(cms.begin(), cms.end());
+      - delay: 1s
+      - uart.write: "saveCfg 0x45670123 0xCDEF89AB 0x956128C6 0xDF54AC89"
+      - delay: 1s
+      - uart.write: "sensorStart"
+      
+  - platform: template
+    name: latency
+    id: latency
+    min_value: 0
+    max_value: 65000
+    initial_value: 12500
+    optimistic: true
+    step: 25
+    restore_value: true
+    unit_of_measurement: ms
+    set_action:
+      - uart.write: "sensorStop"
+      - delay: 1s
+      - uart.write: !lambda
+                      int ms = (int)ceil(x / 25.0);
+                      std::string mss = "outputLatency -1 0 " + to_string(ms);
+                      return std::vector<unsigned char>(mss.begin(), mss.end());
+      - delay: 1s
+      - uart.write: "saveCfg 0x45670123 0xCDEF89AB 0x956128C6 0xDF54AC89"
+      - delay: 1s
+      - uart.write: "sensorStart"   
+
+button:
+  - platform: restart
+    name: Restart $device_name
+
+  - platform: template
+    name: "factory_reset_sensor"
+    id: "factory_reset_sensor"
+    on_press:
+      - uart.write: "sensorStop"
+      - delay: 1s
+      - uart.write: "factoryReset 0x45670123 0xCDEF89AB 0x956128C6 0xDF54AC89"
+      - delay: 3s
+      - uart.write: "sensorStart" 
