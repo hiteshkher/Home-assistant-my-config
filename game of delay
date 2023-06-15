@@ -1,0 +1,280 @@
+captive_portal:
+
+# Example configuration entry
+
+binary_sensor:  #IN_PUT
+
+  - platform: gpio
+    name: 1
+    pin:
+      number: GPIO13
+      inverted: true
+      mode:
+        input: true
+        pullup: True
+    filters:
+      - delayed_off: 50s    
+    on_press:
+      then:
+      - switch.turn_on: P1
+    on_release:
+      then:
+      - switch.turn_off: P1
+
+  - platform: gpio
+    name: 2
+    pin:
+      number: GPIO12
+      inverted: true
+      mode:
+        input: true
+        pullup: True
+    filters:
+      - delayed_off: 50s  
+    on_press:
+      then:
+      - switch.turn_on: P2
+    on_release:
+      then:
+      - switch.turn_off: P2
+
+  - platform: gpio
+    name: 3
+    pin:
+      number: GPIO14
+      inverted: true
+      mode:
+        input: true
+        pullup: True
+    filters:
+      - delayed_off: 50s    
+    on_press:
+      then:
+      - switch.turn_on: P3
+    on_release:
+      then:
+      - switch.turn_off: P3
+
+  - platform: gpio
+    name: 4
+    pin:
+      number: GPIO27
+      inverted: true
+      mode:
+        input: true
+        pullup: True
+    filters:
+      - delayed_off: 50s    
+    on_press:
+      then:
+      - switch.turn_on: P4
+    on_release:
+      then:
+      - switch.turn_off: P4
+
+  - platform: gpio
+    name: 5
+    pin:
+      number: GPIO26
+      inverted: true
+      mode:
+        input: true
+        pullup: True
+    filters:
+      - delayed_off: 50s    
+    on_press:
+      then:
+      - switch.turn_on: P5
+    on_release:
+      then:
+      - switch.turn_off: P5
+
+  - platform: gpio
+    name: 6
+    pin:
+      number: GPIO25
+      inverted: true
+      mode:
+        input: true
+        pullup: True
+    filters:
+      - delayed_off: 50s    
+    on_press:
+      then:
+      - switch.turn_on: P6
+    on_release:
+      then:
+      - switch.turn_off: P6
+
+  - platform: gpio
+    name: light7
+    pin:
+      number: GPIO33
+      inverted: true
+      mode:
+        input: true
+        pullup: True
+    on_press:
+      then:
+      - switch.turn_on: light7
+    on_release:
+      then:
+      - switch.turn_off: light7
+
+  - platform: gpio
+    name: light8
+    pin:
+      number: GPIO32
+      inverted: true
+      mode:
+        input: true
+        pullup: True
+    on_press:
+      then:
+      - switch.turn_on: light8
+    on_release:
+      then:
+      - switch.turn_off: light8
+
+  - platform: gpio
+    name: light9
+    pin:
+      number: GPIO35
+      inverted: true
+      mode:
+        input: true
+        #pullup: True
+    on_press:
+      then:
+      - switch.turn_on: light9
+    on_release:
+      then:
+      - switch.turn_off: light9
+
+  - platform: gpio
+    name: light10
+    pin:
+      number: GPIO34
+      inverted: true
+      mode:
+        input: true
+        #pullup: True
+    on_press:
+      then:
+      - switch.turn_on: light10
+    on_release:
+      then:
+      - switch.turn_off: light10
+
+ # - platform: gpio
+   # name: light11
+   # pin:
+    #  number: GPIO39
+
+
+ # - platform: gpio
+    #name: light12
+   # pin:
+     # number: GPIO36
+
+
+switch: #OUT_PUT      
+
+  - platform: gpio  
+    name: 1
+    id: P1
+    pin: GPIO15       
+    #inverted: true 
+
+  - platform: restart  
+    name: restart
+    
+  - platform: gpio  
+    name: 2
+    id: P2
+    pin: GPIO2    
+    #inverted: true
+
+  - platform: gpio  
+    name: 3
+    id: P3
+    pin: GPIO4  
+    
+
+  - platform: gpio  
+    name: 4
+    id: P4
+    pin: GPIO16    
+    
+
+  - platform: gpio  
+    name: 5
+    id: P5
+    pin: GPIO17       
+    
+
+
+  - platform: gpio  
+    name: 6
+    id: P6
+    pin: GPIO5      
+     
+
+  - platform: gpio  
+    name: light7
+    id: light7
+    pin: GPIO18
+  
+
+  - platform: gpio  
+    name: light8
+    id: light8
+    pin: GPIO19 
+    
+
+  - platform: gpio  
+    name: light9
+    id: light9
+    pin: GPIO21  
+    
+
+  - platform: gpio  
+    name: light10
+    id: light10
+    pin: GPIO3       
+     
+
+  #- platform: gpio  
+   # name: light11
+   # id: light11
+  #  pin: GPIO22    
+   
+
+  #- platform: gpio  
+   # name: light12
+  #  id: light12
+  #  pin: GPIO23
+time:
+  - platform: sntp
+    # ...
+    on_time:
+      # Every day
+      - seconds: 0
+        minutes: 30
+        hours: 19
+        days_of_week: 1-7
+        then:
+          - switch.turn_on:
+               id: light7
+      # Every day
+      - seconds: 0
+        minutes: 15
+        hours: 23
+        days_of_week: 1-7
+        then:
+          - switch.turn_off:
+               id: light7     
+sensor:
+  - platform: wifi_signal
+    name: wifi signal
+    update_interval: 60s
