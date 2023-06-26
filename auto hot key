@@ -1,0 +1,49 @@
+for states cmd states
+==========xxxx========
+
+curl -X GET -H "Authorization: Bearer YOUR_LONG_LIVED_ACCESS_TOKEN" http://00.00.000.0:8123/api/states/sensor.1_no
+
+
+ 
+for scenes  cmd webhook
+==========xxxx========
+
+curl -X POST -H "Authorization: Bearer YOUR_LONG_LIVED_ACCESS_TOKEN" http://00.00.000.0:8123/api/webhook/YOUR_WEBHOOK_ID
+
+for scenes from auto hot key webhook
+==========xxxx========
+
+Ctrl & F1::
+Run, curl -X POST -H "Authorization: Bearer YOUR_LONG_LIVED_ACCESS_TOKEN" http://00.00.000.0:8123/api/webhook/YOUR_WEBHOOK_ID
+
+Auto Hotkey Code (Copy and Paste this):
+
+#,::sendinput {Media_Prev}
+#.::sendinput {Media_Next}
+#/::sendinput {Media_Play_Pause}
+#m::sendinput {Volume_Mute}
+#h::sendinput {Volume_Up}
+#n::sendinput {Volume_Down}
+
++4::£
+
+Modifier Codes (Replace the hashtag with these if you want or add after the hashtag to make a longer combination):
+
+# = Win
+
+! = Alt
+
+^ = Control
+
++ = Shift
+
+Once RUN is open, type this command:
+
+shell:startup
+
+
+Shift & F15::
+Alt & F22::
+Ctrl & F23::
+
+
