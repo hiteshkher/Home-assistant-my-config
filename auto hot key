@@ -23,7 +23,21 @@ Run, curl -X POST -H "Authorization: Bearer YOUR_LONG_LIVED_ACCESS_TOKEN" http:/
     json_attributes:
       - attributes
     headers:
-      Authorization: Bearer
+      Authorization: Bearer YOUR_LONG_LIVED_ACCESS_TOKEN
+
+
+sensor:     ### ONLY INCLUDE THIS LINE IF YOU DON'T ALREADY HAVE Sensor: IN YOUR Configuration.yaml ###
+
+  - platform: rest
+    resource: 
+    name: "CUSTOM NAME"
+    value_template: '{{ value_json.state }}'
+    json_attributes:
+      - attributes
+    headers:
+      Authorization: Bearer YOUR_LONG_LIVED_ACCESS_TOKEN
+
+
 
 Auto Hotkey Code (Copy and Paste this):
 
