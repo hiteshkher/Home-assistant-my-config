@@ -10,11 +10,20 @@ for scenes  cmd webhook
 
 curl -X POST -H "Authorization: Bearer YOUR_LONG_LIVED_ACCESS_TOKEN" http://00.00.000.0:8123/api/webhook/YOUR_WEBHOOK_ID
 
-for scenes from auto hot key webhook
+for scenes from auto hotkey webhook
 ==========xxxx========
 
 Ctrl & F1::
 Run, curl -X POST -H "Authorization: Bearer YOUR_LONG_LIVED_ACCESS_TOKEN" http://00.00.000.0:8123/api/webhook/YOUR_WEBHOOK_ID
+
+- platform: rest
+    resource: http://00.00.000.0:8123/api/states/sensor.1_no
+    name: "Shared Entity"
+    value_template: "{{ value_json.state }}"
+    json_attributes:
+      - attributes
+    headers:
+      Authorization: Bearer
 
 Auto Hotkey Code (Copy and Paste this):
 
