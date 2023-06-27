@@ -1,0 +1,148 @@
+# Loads default set of integrations. Do not remove.
+default_config:
+
+# Load frontend themes from the themes folder
+frontend:
+  themes: !include_dir_merge_named themes
+
+# Text to speech
+tts:
+  - platform: google_translate
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+
+switch:
+  - platform: rpi_gpio
+    switches:
+      - port: 11
+        name: "Fan Office"
+      - port: 12
+        name: "Light Desk"
+sensor:
+  - platform: systemmonitor
+    resources:
+      - type: disk_use_percent
+        arg: /config
+      - type: disk_use
+      - type: disk_free
+      - type: memory_use
+      - type: memory_free
+      - type: swap_use_percent
+      - type: ipv4_address
+        arg: eth0
+      - type: processor_use
+      - type: processor_temperature
+      - type: last_boot
+
+  - platform: time_date
+    display_options:
+      - "time"
+      - "date"
+      - "date_time"
+      - "date_time_utc"
+      - "date_time_iso"
+      - "time_date"
+      - "time_utc"
+      - "beat"
+
+  - platform: history_stats
+    type: time
+    name: 1_NO
+    entity_id: binary_sensor.1_6_1
+    state: "on"
+    start: "{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}"
+    end: "{{ now() }}"
+  - platform: history_stats
+    type: time
+    name: 2_NO
+    entity_id: binary_sensor.1_6_2
+    state: "on"
+    start: "{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}"
+    end: "{{ now() }}"
+  - platform: history_stats
+    type: time
+    name: 3_NO
+    entity_id: binary_sensor.1_6_3
+    state: "on"
+    start: "{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}"
+    end: "{{ now() }}"
+
+  - platform: history_stats
+    type: time
+    name: 4_NO
+    entity_id: binary_sensor.1_6_4
+    state: "on"
+    start: "{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}"
+    end: "{{ now() }}"
+  - platform: history_stats
+    type: time
+    name: 5_NO
+    entity_id: binary_sensor.1_6_5
+    state: "on"
+    start: "{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}"
+    end: "{{ now() }}"
+  - platform: history_stats
+    type: time
+    name: 6_NO
+    entity_id: binary_sensor.1_6_6
+    state: "on"
+    start: "{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}"
+    end: "{{ now() }}"
+
+  - platform: history_stats
+    type: time
+    name: 7_NO
+    entity_id: binary_sensor.7_8_9_7
+    state: "on"
+    start: "{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}"
+    end: "{{ now() }}"
+  - platform: history_stats
+    type: time
+    name: 8_NO
+    entity_id: binary_sensor.7_8_9_8
+    state: "on"
+    start: "{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}"
+    end: "{{ now() }}"
+  - platform: history_stats
+    type: time
+    name: 9_NO
+    entity_id: binary_sensor.7_8_9_9
+    state: "on"
+    start: "{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}"
+    end: "{{ now() }}"
+
+  - platform: history_stats
+    type: time
+    name: 10_NO
+    entity_id: binary_sensor.game10_11_10
+    state: "on"
+    start: "{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}"
+    end: "{{ now() }}"
+  - platform: history_stats
+    type: time
+    name: 11_NO
+    entity_id: binary_sensor.game10_11_11
+    state: "on"
+    start: "{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}"
+    end: "{{ now() }}"
+  - platform: history_stats
+    type: time
+    name: 12_NO
+    entity_id: binary_sensor.game10_11_12
+    state: "on"
+    start: "{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}"
+    end: "{{ now() }}"
+
+# Example configuration.yaml entry
+alarm_control_panel:
+  - platform: manual
+    name: Home Alarm
+    code: "1234"
+    code_arm_required: false # code is not needed for alarm to be armed
+    disarm_after_trigger: false # the alarm will not disarm after it has been triggered
+    arming_time: 20 # Time to leave the RV after arming
+    delay_time: 20 # Time to enter the code after entering the RV
+    trigger_time: 300 # The time in seconds in which the alarm is firing.
+    disarmed:
+      trigger_time: 0 # Alarm can't be triggered when disarmed
