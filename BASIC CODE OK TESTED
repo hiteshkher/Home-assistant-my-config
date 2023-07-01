@@ -1,0 +1,196 @@
+C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp
+
+http://192.168.56.1:8123
+http://10.36.152.148:8123
+http://10.36.152.104:8123/
+
+
+http://homeassistant.local:8123
+http://homeassistant.local:4357
+
+
+
+
+#METHORD 1 FOR ON OFF SWITCH
+
+switch:
+  - platform: gpio
+    pin: GPIO0
+    name: "YOUR CHOICE"
+    inverted: true
+#################################################
+#METHORD 2 FOR ON OFF SWITCH
+
+light:
+  - platform: binary
+    name: "YOUR CHOICE"
+    output: your_choice
+output:
+  - id: your_choice
+    platform: gpio
+    pin: GPIO0
+###############################################
+
+switch:
+  - platform: gpio
+    pin: GPIO3
+    name: "Living Room Dehumidifier"
+
+binary_sensor:
+  - platform: gpio
+    pin: GPIO4
+    name: "Living Room Dehumidifier Toggle Button"
+
+##############################################
+
+switch:
+  - platform: gpio
+    pin: GPIO16
+    name: "my"
+    id: ps4
+
+binary_sensor:
+  - platform: gpio
+    pin: GPIO15
+    name: "your"
+   
+    on_press:
+      then:
+      - switch.turn_on: ps4
+    on_release:
+      then:  
+      - delay: 2s
+      - switch.turn_off: ps4
+###########################################
+
+binary_sensor: #IN_PUT
+  - platform: gpio
+    name: PS4_10_MANUAL
+    pin:
+      number: GPIO5 #D1
+      inverted: true
+      mode:
+        input: true
+        pullup: True
+    filters:
+      - delayed_off: 2s
+    on_press:
+      then:
+      - switch.turn_on: PS4_10
+    on_release:
+      then:  
+      - switch.turn_off: PS4_10
+
+
+switch: #OUT_PUT
+
+  - platform: gpio
+    name: PS4_10_NO
+    id: PS4_10
+    pin:
+      number: GPIO16 #D0
+      inverted: False
+      mode:
+        input: False
+        output: True
+        pullup: False
+
+########################################################
+
+# Example configuration entry
+
+binary_sensor: #IN_PUT
+  - platform: gpio
+    name: PS4_10_MANUAL
+    pin:
+      number: GPIO5 #D1
+      inverted: true
+      mode:
+        input: true
+        pullup: True
+    filters:
+      - delayed_off: 2s
+    on_press:
+      then:
+      - switch.turn_on: PS4_10
+    on_release:
+      then:  
+      - switch.turn_off: PS4_10
+#-----------------------------------------------1 end input
+
+
+switch: #OUT_PUT
+
+  - platform: gpio
+    name: PS4_10_NO
+    id: PS4_10
+    pin: GPIO16 #D0
+    inverted: true
+  #---------------------------------------------  
+
+
+################################################################
+
+sensor:
+# ntc sensor
+  - platform: ntc
+    sensor: resistance_sensor
+    calibration:
+      b_constant: 3950
+      reference_temperature: 30°C
+      reference_resistance: 8kOhm
+    name: NTC Temperature
+# dht sensor  
+  - platform: dht
+    pin: GPIO5
+    temperature:
+      name: "Living Room Temperature"
+    humidity:
+      name: "Living Room Humidity"
+    update_interval: 60s
+
+# Example source sensors:
+  - platform: resistance
+    id: resistance_sensor
+    sensor: source_sensor
+    configuration: DOWNSTREAM
+    resistor: 28kOhm
+    name: Resistance Sensor
+  - platform: adc
+    id: source_sensor
+    pin: A0
+    
+###############################################################
+
+
+sensor:
+  - platform: dht
+    pin: 2
+    temperature:
+      name: "Living Room Temperature"
+    humidity:
+      name: "Living Room Humidity"
+    update_interval: 5s
+    
+##############################################################
+
+Label	GPIO	Input	Output	Notes
+D0	GPIO16	no interrupt	no PWM or I2C support	HIGH at boot
+used to wake up from deep sleep
+D1	GPIO5	OK	OK	often used as SCL (I2C)
+D2	GPIO4	OK	OK	often used as SDA (I2C)
+D3	GPIO0	pulled up	OK	connected to FLASH button, boot fails if pulled LOW
+D4	GPIO2	pulled up	OK	HIGH at boot
+connected to on-board LED, boot fails if pulled LOW
+D5	GPIO14	OK	OK	SPI (SCLK)
+D6	GPIO12	OK	OK	SPI (MISO)
+D7	GPIO13	OK	OK	SPI (MOSI)
+D8	GPIO15	pulled to GND	OK	SPI (CS)
+Boot fails if pulled HIGH
+RX	GPIO3	OK	RX pin	HIGH at boot
+TX	GPIO1	TX pin	OK	HIGH at boot
+debug output at boot, boot fails if pulled LOW
+A0	ADC0	Analog Input	X	
+
+
+restore_mode: RESTORE_DEFAULT_OFF
