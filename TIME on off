@@ -1,0 +1,140 @@
+https://esphome.io/components/time/index.html
+
+
+switch:
+  - platform: gpio
+    pin: D2
+    name: "Heart switch"
+    inverted: true  
+    id: my_switch
+time:
+  - platform: sntp
+    # ...
+    on_time:
+      # Every morning 
+      - seconds: 0
+        minutes: 15
+        hours: 22
+        days_of_week: SUN-SAT
+        then:
+          - switch.toggle:
+              id: my_switch
+
+#########################################
+
+captive_portal:
+
+switch:
+  - platform: gpio
+    pin: D2
+    name: "Heart switch"
+    inverted: true  
+    id: my_switch
+time:
+  - platform: sntp
+    # ...
+    on_time:
+      # Every 5 minutes
+      - seconds: /5 #WORKING FOR 5 SECOND
+        minutes: /1 
+        then:
+          - switch.toggle:
+             id: my_switch
+
+
+#####################################################
+
+captive_portal:
+
+switch:
+  - platform: gpio
+    pin: D2
+    name: "Heart switch"
+    inverted: true  
+    id: my_switch
+time:
+  - platform: sntp
+    # ...
+    on_time:
+      # Every day
+      - seconds: 0
+        minutes: 48
+        hours: 0
+        days_of_week: 1-7
+        then:
+          - switch.turn_on:
+               id: my_switch
+      # Every day
+      - seconds: 5
+        minutes: 48
+        hours: 0
+        days_of_week: 1-7
+        then:
+          - switch.turn_off:
+               id: my_switch       
+
+
+
+
+###########################
+
+
+time:
+  - platform: sntp
+    # ...
+    on_time:
+      # Every 5 minutes
+      - seconds: 0
+        minutes: /5
+        then:
+          - switch.toggle: my_switch
+
+      # Every morning on weekdays
+      - seconds: 0
+        minutes: 30
+        hours: 7
+        days_of_week: MON-FRI
+        then:
+          - light.turn_on: my_light
+
+      # Cron syntax, trigger every 5 minutes
+      - cron: '* /5 * * * *'
+        then:
+          - switch.toggle: my_switch
+
+
+
+############################################
+
+
+
+
+captive_portal:
+
+switch:
+  - platform: gpio
+    pin: GPIO0
+    name: "Out light1"
+    inverted: true
+    id: Outlight1
+
+time:
+  - platform: sntp
+    # ...
+    on_time:
+      # Every day
+      - seconds: 0
+        minutes: 00
+        hours: 19
+        days_of_week: 1-7
+        then:
+          - switch.turn_on:
+               id: Outlight1
+      # Every day
+      - seconds: 0
+        minutes: 0
+        hours: 23 
+        days_of_week: 1-7
+        then:
+          - switch.turn_off:
+               id: Outlight1
