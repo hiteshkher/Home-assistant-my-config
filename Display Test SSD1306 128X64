@@ -15,3 +15,69 @@ display:
     address: 0x3C
     lambda: |-
       it.print(20,20, id(hitesh), "Hi Hitesh");
+
+
+
+captive_portal:
+
+# Example configuration entry for ESP32
+i2c:
+  sda: GPIO4 # GPIO21 for ESP32
+  scl: GPIO5 # GPIO22 For ESP32
+font:
+  # gfonts://family[@weight]
+  - file: "calibril.ttf"
+    id: a
+    
+    size: 20
+  - file: "calibril.ttf"
+    id: b
+    size: 20 
+  - file: "calibril.ttf"
+    id: c
+    size: 20
+  - file: "calibril.ttf"
+    id: d
+    size: 20
+  
+
+  
+
+interval:
+  - interval: 2s
+    then:
+      - display.page.show_next: my_display
+      - component.update: my_display
+
+
+#animation:
+ # - file: "cute-kitty.gif"
+  #  id: my_animation
+  #  resize: 64x128    
+    
+
+
+
+    
+display:
+  - platform: ssd1306_i2c
+    model: "SSD1306 128x64"
+    id: my_display
+    reset_pin: D0
+    pages:
+      - id: page1
+        lambda: |-
+          it.print(10, 20, id(a), "Welcome to");
+      - id: page2
+        lambda: |-
+          it.print(25, 20, id(b), "Gopinath ");
+      - id: page3
+        lambda: |-
+          it.print(17, 20, id(a), "GameZone");
+      - id: page4
+        lambda: |-
+          it.print(20, 20, id(b), "Thank You");        
+     # - id: page3
+      #  lambda: |-
+        #  id(my_animation).next_frame();
+        #  it.image(0, 0, id(my_animation), COLOR_ON, COLOR_OFF);
