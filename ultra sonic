@@ -1,0 +1,100 @@
+captive_portal:
+switch:
+  - platform: gpio
+    pin: D3
+    name: "Heart switch"
+    inverted: true  
+    id: my_switch
+    
+globals:
+ # Set this to the distance detected by the ultrasonic sensor. Default is 2m.
+ - id: maximum_distance
+   type: float
+   initial_value: '0.5'
+ # How many distance readings to detect before reporting value (smooth false positives)
+ - id: reporting_interval
+   type: int
+   initial_value: '5'
+ # Do not change the following globals
+ - id: detected_readings
+   type: int
+   restore_value: no
+   initial_value: '0'
+ - id: previous_reading_nan
+   type: boolean
+   restore_value: no
+   initial_value: 'true'
+ - id: previous_reading
+   type: float
+   restore_value: no
+   initial_value: '20.0'
+    
+
+sensor:
+
+  # This is the physical sensor, not published to Home Assistant
+  - platform: ultrasonic
+    trigger_pin: D2
+    echo_pin: D1
+    name: "Ultrasonic Distance Raw"
+    update_interval: 1s
+    id: ultrasonic_distance_raw
+    internal: true
+  # This is a virtual sensor to smooth the false positive readings
+  - platform: template
+    id: ultrasonic_distance
+    name: "Ultrasonic Distance"
+    update_interval: 1s
+    lambda: |-
+      ESP_LOGD("Ultrasonic", "Got %d readings in a row", id(detected_readings));
+      if (id(ultrasonic_distance_raw).state < id(maximum_distance)) {
+        // We have a reading... don't use it, just remember that we got one, but not if we're already at the limit of how many we need
+        ESP_LOGD("Ultrasonic", "We have a reading... don't use it, just remember that we got one.");
+        if(id(previous_reading_nan) == true) {
+          id(previous_reading_nan) = false;
+          id(detected_readings) = 0;
+        }
+        if( id(detected_readings) < id(reporting_interval) ) {
+          id(detected_readings) += 1;
+        }
+      }
+      else {
+        // We got a NAN reading (out of range). Reset the readings counter
+        if(id(previous_reading_nan) == false) {
+          id(previous_reading_nan) = true;
+          id(detected_readings) = 0;
+        }
+        if( id(detected_readings) < id(reporting_interval) ) {
+          id(detected_readings) += 1;
+        }
+        ESP_LOGD("Ultrasonic", "We got a NAN reading (out of range). Reset the readings counter");
+        id(previous_reading_nan) = true;
+      }
+      
+      if( id(detected_readings) >= id(reporting_interval)) {
+        // We have gathered enough readings in a row to report
+        if(id(previous_reading_nan) == false) {
+          id(previous_reading) = id(ultrasonic_distance_raw).state;
+          return id(ultrasonic_distance_raw).state;
+        }
+        else {
+          ESP_LOGD("Ultrasonic", "We have gathered enough readings in a row to report: %f", id(maximum_distance));
+          id(previous_reading) = id(maximum_distance);
+          return id(maximum_distance); 
+        }
+      }
+      return id(previous_reading);
+      
+binary_sensor:
+  - platform: template
+    name: "Ultrasonic Presence"
+    lambda: |-
+      if (id(ultrasonic_distance).state < id(maximum_distance)) {
+        // Presence is detected
+        return true;
+      } else {
+        // No presence detected.
+        return false;
+      }
+    filters:
+      - delayed_off: 5000ms
