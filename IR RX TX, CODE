@@ -1,0 +1,78 @@
+captive_portal:
+
+remote_receiver:
+# remote rx ne 3.3v aapva  
+  pin:
+    number: D5
+    inverted: True
+  dump: raw #all #brand name
+
+
+
+remote_receiver:
+  pin:
+    number: D5
+    inverted: True
+  dump: all
+
+remote_transmitter:
+  pin:
+    number: D1
+  carrier_duty_percent: 50%
+
+switch:
+  - platform: template
+    name: "1"
+    turn_on_action:
+      - remote_transmitter.transmit_nec:
+          address: 0xF300
+          command: 0x748B
+          repeat:
+            times: 10
+            wait_time: 50ms
+  - platform: template
+    name: "2"
+    turn_on_action:
+      - remote_transmitter.transmit_nec:
+          address: 0xF300
+          command: 0x6F90
+          repeat:
+            times: 10
+            wait_time: 50ms
+  - platform: template
+    name: "3"
+    turn_on_action:
+      - remote_transmitter.transmit_nec:
+          address: 0xF300
+          command: 0x758A
+          repeat:
+            times: 10
+            wait_time: 50ms
+  - platform: template
+    name: "4"
+    turn_on_action:
+      - remote_transmitter.transmit_nec:
+          address: 0xF300
+          command: 0x6C93
+          repeat:
+            times: 10
+            wait_time: 50ms
+  - platform: template
+    name: "5"
+    turn_on_action:
+      - remote_transmitter.transmit_nec:
+          address: 0xF300
+          command: 0x7788
+          repeat:
+            times: 10
+            wait_time: 50ms
+  - platform: template
+    name: "BOOST"
+    turn_on_action:
+      - remote_transmitter.transmit_nec:
+          address: 0xF300
+          command: 0x708F
+          repeat:
+            times: 10
+            wait_time: 50ms
+    
