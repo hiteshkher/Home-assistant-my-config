@@ -1,0 +1,51 @@
+captive_portal:
+
+binary_sensor: #like IN_PUT
+  - platform: gpio
+    name: light
+    pin: D2
+      #number: D2
+      #inverted: true
+      #mode:
+       #input: true
+       #pullup: true
+
+    on_press:
+      then:
+      - switch.turn_on: light
+    on_release:
+      then:
+      - switch.turn_off: light
+    filters: #after switch off, divice off time add here
+      - delayed_off: 2s
+
+switch: #like OUT_PUT
+  - platform: gpio  
+    name: light 
+    id: light
+    pin: D3
+    inverted: true
+
+#####################################
+
+
+binary_sensor: #like IN_PUT
+  - platform: gpio
+    name: light
+    pin: D2
+
+
+    on_press:
+      then:
+      - switch.turn_on: light
+    on_release:
+      then:
+      - delay: 5s #after switch off, divice off time add here
+      - switch.turn_off: light
+
+switch: #like OUT_PUT
+  - platform: gpio  
+    name: light 
+    id: light
+    pin: D3
+    inverted: true
