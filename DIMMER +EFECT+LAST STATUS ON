@@ -1,0 +1,86 @@
+esphome:
+  name: dimmer-esp01
+  friendly_name: Dimmer
+
+esp8266:
+  board: esp01_1m
+  restore_from_flash: True
+  
+
+# Enable logging
+#logger:
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: "yRlu6+ZetTOtbD2UkVIZJbp+6N5eZYI5SmAlZKjyBss="
+
+ota:
+  password: "19937c58c50c84e81d8ab1f7a7692e37"
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Dimmer-Esp01 Fallback Hotspot"
+    password: "L321UKnV4ZDW"
+
+captive_portal:
+
+# Example configuration entry
+preferences:
+  flash_write_interval: 5min
+
+light:
+  - platform: monochromatic
+    name: "Kitchen Lights"
+    output: output_component1
+    effects:
+  # Use default parameters:
+      - random:
+      # Customize parameters
+      - random:
+          name: "My Slow Random Effect"
+          transition_length: 30s
+          update_interval: 30s
+      - random:
+          name: "My Fast Random Effect"
+          transition_length: 4s
+          update_interval: 5s   
+      - pulse:
+      - pulse:
+          name: "2s Pulse"
+          transition_length: 7s
+          update_interval: 3s
+      
+     
+      - strobe:
+      - strobe:
+          name: Strobe Effect With Custom Values
+          colors:
+            - state: true
+              brightness: 100%
+              
+              duration: 20ms
+            - state: false
+              duration: 50ms
+            - state: true
+              brightness: 100%
+              
+              duration: 1ms
+      - flicker:
+      - flicker:
+          name: Flicker Effect With Custom Values
+          alpha: 95%
+          intensity: 1.5%                 
+
+# Example output entry
+output:
+  - platform: esp8266_pwm
+    id: output_component1
+    pin: GPIO0
+   # inverted: True
