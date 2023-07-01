@@ -1,0 +1,56 @@
+type: gauge
+entity: sensor.kitchen_humidity
+needle: true
+min: 20
+max: 80
+segments:
+  - from: 0
+    color: '#db4437'
+  - from: 35
+    color: '#ffa600'
+  - from: 40
+    color: '#43a047'
+  - from: 60
+    color: '#ffa600'
+  - from: 65
+    color: '#db4437'
+
+
+sensor.weather_dht11_humidity
+
+type: gauge
+sensor.weather_dht11_humidity
+
+needle: true
+max: 100
+segments:
+  - from: 70
+    color: '#db4437'
+  - from: 60
+    color: '#ffa600'
+  - from: 30
+    color: '#43a047'
+  - from: 20
+    color: '#ffa600'
+  - from: 0
+    color: '#db4437'
+min: 0
+
+
+
+type: gauge
+entity: sensor.weather_dht20_temperature
+needle: true
+max: 100
+segments:
+  - from: 70
+    color: '#db4437'
+  - from: 60
+    color: '#ffa600'
+  - from: 30
+    color: '#43a047'
+  - from: 20
+    color: '#ffa600'
+  - from: 0
+    color: '#db4437'
+min: 0
