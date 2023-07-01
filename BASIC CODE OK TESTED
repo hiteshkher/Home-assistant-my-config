@@ -194,3 +194,91 @@ A0	ADC0	Analog Input	X
 
 
 restore_mode: RESTORE_DEFAULT_OFF
+
+
+
+# dht sensor  
+  - platform: dht
+    pin: D2
+    temperature:
+      name: "Living Room Temperature"
+    humidity:
+      name: "Living Room Humidity"
+    update_interval: 7s
+
+
+sensor:
+# ntc sensor
+  - platform: ntc
+    sensor: resistance_sensor
+    calibration:
+      b_constant: 3950
+      reference_temperature: 25°C
+      reference_resistance: 10kOhm
+    name: NTC Temperature
+
+  - platform: resistance
+    id: resistance_sensor
+    sensor: source_sensor
+    configuration: DOWNSTREAM
+    resistor: 10kOhm
+    reference_voltage:  3.3V
+    name: Resistance Sensor
+  - platform: adc
+    id: source_sensor
+    filters:
+       -  offset:  -0.042
+       -  multiply: 3.3
+    pin: A0
+    update_interval: 60s
+
+
+captive_portal:
+#remote_receiver:
+ # pin: 
+  #  number: D5
+   # inverted: true
+    #mode: INPUT_PULLUP
+  #dump: raw
+
+
+sensor:
+# ntc sensor
+  - platform: ntc
+    name: NTC Temperature
+    on_value_range:
+      - above: 20.0
+        then:
+          - switch.turn_on: fridge
+      - below: 15.0
+        then:
+          - switch.turn_off: fridge
+    sensor: resistance_sensor
+    calibration:
+      b_constant: 3950
+      reference_temperature: 25°C
+      reference_resistance: 10kOhm
+    
+
+  - platform: resistance
+    id: resistance_sensor
+    sensor: source_sensor
+    configuration: DOWNSTREAM
+    resistor: 10kOhm
+    reference_voltage:  3.3V
+    name: Resistance Sensor
+  - platform: adc
+    id: source_sensor
+    filters:
+       -  offset:  -0.042
+       -  multiply: 3.3
+    pin: A0
+    update_interval: 5s
+
+
+switch:
+  - platform: gpio
+    pin: D4
+    name: "fridge"
+    id: fridge
+
